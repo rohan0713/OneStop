@@ -6,9 +6,13 @@ import android.util.Log
 import com.jakewharton.rxbinding4.view.clicks
 import com.kotlin.androidtopics.R
 import com.kotlin.androidtopics.databinding.ActivityRxjavaBinding
+import com.kotlin.androidtopics.rxjava.data.remote.Retrofit
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
 
@@ -22,10 +26,19 @@ class RxjavaActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button2.clicks()
-            .throttleFirst(1500, TimeUnit.MILLISECONDS)
+            .debounce(500, TimeUnit.MILLISECONDS)
             .subscribe{
-            Log.d("subs", "Button clicked")
+            networkCall()
         }
+    }
+
+    private fun networkCall() {
+        val service = Retrofit.api
+        service.getMeals("Indian").subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{
+                Log.d("subs", it.meals.toString())
+            }
     }
 
     private fun createObservable() {
