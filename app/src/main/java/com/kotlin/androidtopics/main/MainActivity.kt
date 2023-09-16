@@ -1,73 +1,30 @@
 package com.kotlin.androidtopics.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.kotlin.androidtopics.R
+import com.kotlin.androidtopics.databinding.ActivityMainBinding
+import com.kotlin.androidtopics.rxjava.ui.activities.RxjavaActivity
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import java.lang.IllegalArgumentException
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-//        simpleObserver()
-        createObservable()
-    }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    private fun createObservable() {
-        val observable = Observable.create<String>{
-            it.onNext("a")
-            it.onNext("b")
-            it.onError(IllegalArgumentException("wrong data"))
-            it.onNext("c")
-            it.onComplete()
+        binding.button.setOnClickListener {
+            Intent(this@MainActivity, RxjavaActivity::class.java).also {
+                startActivity(it)
+            }
         }
-
-        observable.subscribe(object : Observer<String>{
-            override fun onSubscribe(d: Disposable) {
-                Log.d("subs", "On Subscribe is called")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.d("subs", "On Error is called")
-            }
-
-            override fun onComplete() {
-                Log.d("subs", "On Complete is called")
-            }
-
-            override fun onNext(t: String) {
-                Log.d("subs", "On Next is called - $t")
-            }
-
-        })
-    }
-
-    private fun simpleObserver() {
-        val list = listOf("A", "B", "C")
-        val observable = Observable.fromIterable(list)
-
-        observable.subscribe(object : Observer<String> {
-            override fun onSubscribe(d: Disposable) {
-                Log.d("subs", "On Subscribe is called")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.d("subs", "On Error is called")
-            }
-
-            override fun onComplete() {
-                Log.d("subs", "On Complete is called")
-            }
-
-            override fun onNext(t: String) {
-                Log.d("subs", "On Next is called - $t")
-            }
-
-        })
     }
 }
