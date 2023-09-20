@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kotlin.androidtopics.databinding.ActivityMainBinding
+import com.kotlin.androidtopics.livedata.ui.ObserveActivity
 import com.kotlin.androidtopics.location.LocationActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             Intent(this@MainActivity, LocationActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+
+        binding.button4.setOnClickListener {
+            Intent(this@MainActivity, ObserveActivity::class.java).also {
                 startActivity(it)
             }
         }
