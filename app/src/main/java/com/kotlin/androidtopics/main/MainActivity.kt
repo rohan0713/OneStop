@@ -1,16 +1,10 @@
 package com.kotlin.androidtopics.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.kotlin.androidtopics.R
+import androidx.appcompat.app.AppCompatActivity
 import com.kotlin.androidtopics.databinding.ActivityMainBinding
-import com.kotlin.androidtopics.rxjava.ui.activities.RxjavaActivity
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import java.lang.IllegalArgumentException
+import com.kotlin.androidtopics.location.LocationActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button.setOnClickListener {
-            Intent(this@MainActivity, RxjavaActivity::class.java).also {
+            Intent(this@MainActivity, LocationActivity::class.java).also {
                 startActivity(it)
             }
         }
